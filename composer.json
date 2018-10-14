@@ -1,0 +1,27 @@
+{
+  "name": "kofo/route-commands",
+  "type": "library",
+  "require": {
+    "php": ">=7.0",
+    "illuminate/routing": "5.5.x|5.6.x|5.7.x",
+  },
+  "license": "MIT",
+  "authors": [
+    {
+      "name": "Kofo Okesola",
+      "email": "okesolakofo@gmail.com"
+    }
+  ],
+  "autoload": {
+    "psr-4": {
+      "kofo\\RouteCommands\\": "src"
+    }
+  },
+  "extra": {
+    "laravel": {
+      "providers": [
+        "kofo\\RouteCommands\\ServiceProvider"
+      ]
+    }
+  }
+}
