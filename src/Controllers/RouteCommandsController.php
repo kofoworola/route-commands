@@ -2,52 +2,39 @@
 
 namespace kofo\RouteCommands\Controllers;
 
+use function foo\func;
 use Illuminate\Routing\Controller;
 use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\Request;
-use Symfony\Component\Console\Output\StreamOutput;
 
 class RouteCommandsController extends Controller
 {
+
     public function handle(){
-        $route = $this->getAfterPrefix(Request::path());
+        $route = get_path_after_prefix();
         $config_routes = config('commands.routes');
-        if(!array_key_exists($route,$config_routes)){
+        $value =$config_routes[$route];
+        if(!isset($value)){
+            echo 'it does not exist';
             abort(404);
         }
+        $options = generate_all_options($value);
 
-        $value =$config_routes[$route];
-        $options = [];
-        if(is_array($value)){
-            $command = $value['command'];
-            $options = $value['options'];
-            echo print_r($options);
-        }
-        else{
-            $command = $value;
-        }
+        $this->checkCommand($options[0]);
 
-        $options = $this->fix_options($options);
-
-        $stream = fopen("php://output", "w");
-        Artisan::call($command,$options,new StreamOutput($stream));
-        return var_dump($stream);
+        Artisan::call($options[0],$options);
+        return Artisan::output();
     }
 
-    private function getAfterPrefix($route){
-        return str_after($route,config('commands.route_prefix').'/');
+
+    private function guessKey($command){
+        if(str_contains($command,'make')){
+            return 'name';
+        }
     }
 
-    private function fix_options($options){
-        $fixed = [];
-        foreach ($options as $key => $value){
-            if(is_int($key)){
-                $fixed[$value] = true;
-            }
-            else{
-                $fixed[$key] = $value;
-            }
-        }
-        return $fixed;
+    private function checkCommand($command){
+        if(str_contains($command,'make') || str_contains($command,'session:table'))
+            abort(500,'Do not run make of session:table commands from here');
     }
 }
