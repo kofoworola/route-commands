@@ -2,6 +2,7 @@
 
 namespace kofo\RouteCommands;
 
+use function foo\func;
 use Illuminate\Support\ServiceProvider as IlluminateServiceProvider;
 
 class ServiceProvider extends IlluminateServiceProvider
@@ -38,5 +39,9 @@ class ServiceProvider extends IlluminateServiceProvider
     {
         $config_path = __DIR__."/config/commands.php";
         $this->mergeConfigFrom($config_path,'commands');
+
+        $this->app->singleton(RouteCommands::class,function(){
+           return new RouteCommands();
+        });
     }
 }

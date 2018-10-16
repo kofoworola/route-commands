@@ -16,10 +16,7 @@
     "psr-4": {
       "kofo\\RouteCommands\\": "src",
       "kofo\\RouteCommands\\Tests\\": "tests/"
-    },
-    "files": [
-      "src/helpers.php"
-    ]
+    }
   },
   "extra": {
     "laravel": {
