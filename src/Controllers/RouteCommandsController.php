@@ -10,20 +10,20 @@ class RouteCommandsController extends Controller
 {
 
     public function handle(){
-        $route = RouteCommandsFacade::getPathAfterPrefix();
+        $route = RouteCommandsFacade::afterPrefix();
         $config_routes = config('commands.routes');
         $value =$config_routes[$route];
         if(!isset($value)){
             echo 'it does not exist';
             abort(404);
         }
-        $options = RouteCommandsFacade::generateAllOptions($value);
+        $options = RouteCommandsFacade::allOptions($value);
 
         $this->checkCommand($options[0]);
-//        return $options;
-//        return collect($options)->slice(1)->all();
-        Artisan::call($options[0],collect($options)->slice(1)->all());
-        return Artisan::output();
+
+
+        $output = RouteCommandsFacade::callCommand($options);
+        return view('route-commands::console',$output);
     }
 
 

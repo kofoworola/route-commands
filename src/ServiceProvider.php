@@ -4,6 +4,7 @@ namespace kofo\RouteCommands;
 
 use function foo\func;
 use Illuminate\Support\ServiceProvider as IlluminateServiceProvider;
+use PhpParser\Node\Scalar\MagicConst\Dir;
 
 class ServiceProvider extends IlluminateServiceProvider
 {
@@ -28,6 +29,8 @@ class ServiceProvider extends IlluminateServiceProvider
                 $router->get($route,'RouteCommandsController@handle');
             }
         });
+
+        $this->loadViewsFrom(__DIR__."/../views",'route-commands');
     }
 
     /**

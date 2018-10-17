@@ -9,6 +9,8 @@
 namespace kofo\RouteCommands;
 
 
+use Illuminate\Support\Facades\Artisan;
+
 class RouteCommands
 {
     /**
@@ -16,7 +18,7 @@ class RouteCommands
      * @param string $path
      * @return string
      */
-    public function getPathAfterPrefix($path = ''){
+    public function afterPrefix($path = ''){
         if(is_null($path) || $path == ''){
             $path = \Illuminate\Support\Facades\Request::path();
         }
@@ -28,7 +30,7 @@ class RouteCommands
      * @param $option
      * @return array
      */
-    public function generateOptionPair($option){
+    public function optionPair($option){
         $pair = [];
         if(str_contains($option,['-','--'])){
             if(str_contains($option,'=')){
@@ -53,18 +55,47 @@ class RouteCommands
      * @param $string
      * @return array
      */
-    public function generateAllOptions($string){
+    public function allOptions($string){
         $words = explode(' ',$string);
         $options[0] = $words[0];
         if(count($words) > 1)
         {
             for($i=1;$i<count($words);$i++){
-                $pair = $this->generateOptionPair($words[$i]);
+                $pair = $this->optionPair($words[$i]);
                 $options[$pair['key']] = $pair['value'];
             }
 
         }
         return $options;
+    }
+
+    /**
+     * Format output to console like
+     * @param $output
+     * @return array
+     */
+    public function formatOutput($output){
+        $lines = explode("\n",$output);
+        $formatted = [];
+        foreach ($lines as $line){
+            $line .= '<br>';
+            $line = str_replace("\t",'<span class="tabbed"></span>',$line);
+            $line = str_replace(' ','&nbsp;',$line);
+            $line = '<p class="output">' . $line. '</p>';
+            array_push($formatted,$line);
+        }
+        return $formatted;
+    }
+
+    public function callCommand($options){
+        $command = $options[0];
+        Artisan::call($command,collect($options)->slice(1)->all());
+        $output = Artisan::output();
+        $formatted = $this->formatOutput($output);
+        $data['command'] = $command;
+        $data['lines'] = $formatted;
+
+        return $data;
     }
 
 }
