@@ -43,5 +43,7 @@ class ServiceProvider extends IlluminateServiceProvider
         $this->app->singleton(RouteCommands::class,function(){
            return new RouteCommands();
         });
+
+        $this->app->alias(RouteCommands::class,'route-commands');
     }
 }

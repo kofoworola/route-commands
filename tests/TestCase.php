@@ -9,6 +9,7 @@
 namespace kofo\RouteCommands\Tests;
 
 
+use kofo\RouteCommands\RouteCommands;
 use kofo\RouteCommands\ServiceProvider;
 
 class TestCase extends \Orchestra\Testbench\TestCase
@@ -31,6 +32,7 @@ class TestCase extends \Orchestra\Testbench\TestCase
     protected function getPackageAliases($app)
     {
         return [
+            'RouteCommands' => RouteCommands::class
         ];
     }
 }

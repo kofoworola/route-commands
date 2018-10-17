@@ -33,10 +33,12 @@ class RouteCommands
         if(str_contains($option,['-','--'])){
             if(str_contains($option,'=')){
                 $split = explode('=',$option);
-                $pair[$split[0]] = $split[1];
+                $pair['key'] = $split[0];
+                $pair['value'] = $split[1];
             }
             else{
-                $pair[$option] = true;
+                $pair['key'] = $option;
+                $pair['value'] = true;
             }
         }
         else{
@@ -53,13 +55,12 @@ class RouteCommands
      */
     public function generateAllOptions($string){
         $words = explode(' ',$string);
-        $options = [];
-        array_push($options,$words[0]);
+        $options[0] = $words[0];
         if(count($words) > 1)
         {
             for($i=1;$i<count($words);$i++){
-                $pair = generate_option_pair($words[$i]);
-                array_push($options,$pair);
+                $pair = $this->generateOptionPair($words[$i]);
+                $options[$pair['key']] = $pair['value'];
             }
 
         }
