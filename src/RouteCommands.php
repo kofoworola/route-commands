@@ -30,7 +30,7 @@ class RouteCommands
      * @param $option
      * @return array
      */
-    public function optionPair($option){
+    public function optionPair($option,$command = ''){
         $pair = [];
         if(str_contains($option,['-','--'])){
             if(str_contains($option,'=')){
@@ -44,8 +44,8 @@ class RouteCommands
             }
         }
         else{
-            //TODO Guess key
-            echo 'will have to guess key';
+            $pair['key'] = $this->guessKey($command);
+            $pair['value']= $option;
         }
         return $pair;
     }
@@ -61,12 +61,18 @@ class RouteCommands
         if(count($words) > 1)
         {
             for($i=1;$i<count($words);$i++){
-                $pair = $this->optionPair($words[$i]);
+                $pair = $this->optionPair($words[$i],$options[0]);
                 $options[$pair['key']] = $pair['value'];
             }
 
         }
         return $options;
+    }
+
+    private function guessKey($command){
+        if(str_contains($command,'list')){
+            return 'namespace';
+        }
     }
 
     /**
@@ -87,8 +93,23 @@ class RouteCommands
         return $formatted;
     }
 
+    /**
+     * Call command on artisan and get output
+     * @param $options
+     * @return mixed
+     */
     public function callCommand($options){
         $command = $options[0];
+        $check = $this->commandBlocked($command);
+        if($check)
+        {
+            $formatted = $this->formatOutput($check['error']);
+            $data['command'] = $check['command'];
+            $data['lines'] = $formatted;
+            return $data;
+
+        }
+
         Artisan::call($command,collect($options)->slice(1)->all());
         $output = Artisan::output();
         $formatted = $this->formatOutput($output);
@@ -96,6 +117,26 @@ class RouteCommands
         $data['lines'] = $formatted;
 
         return $data;
+    }
+
+    /**
+     * Check if command blocked
+     * @param $command
+     * @return bool
+     */
+    public function commandBlocked($command){
+        $blocked = ['make','tinker'];
+        $blocked_config = config('commands.blocked_commands') ?? [];
+
+        $blocked = array_merge($blocked,$blocked_config);
+        if(str_contains($command,$blocked)){
+            $data['command'] = $command;
+            $data['error'] = "Please do not run '$command' via routes!";
+            return $data;
+        }
+        else{
+            return false;
+        }
     }
 
 }

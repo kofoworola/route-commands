@@ -32,6 +32,8 @@
             @foreach($lines as $line)
                 {!! $line !!}
             @endforeach
+            <br>
+            <p class="command">Command Run</p>
         </div>
     </body>
 </html>
