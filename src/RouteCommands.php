@@ -30,7 +30,7 @@ class RouteCommands
      * @param $option
      * @return array
      */
-    public function optionPair($option,$command = ''){
+    public function optionPair($option,$command = '',$count = 1){
         $pair = [];
         if(str_contains($option,['-','--'])){
             if(str_contains($option,'=')){
@@ -44,7 +44,7 @@ class RouteCommands
             }
         }
         else{
-            $pair['key'] = $this->guessKey($command);
+            $pair['key'] = $this->guessKey($command,$count);
             $pair['value']= $option;
         }
         return $pair;
@@ -61,7 +61,7 @@ class RouteCommands
         if(count($words) > 1)
         {
             for($i=1;$i<count($words);$i++){
-                $pair = $this->optionPair($words[$i],$options[0]);
+                $pair = $this->optionPair($words[$i],$options[0],$i);
                 $options[$pair['key']] = $pair['value'];
             }
 
@@ -69,9 +69,25 @@ class RouteCommands
         return $options;
     }
 
-    private function guessKey($command){
-        if(str_contains($command,'list')){
-            return 'namespace';
+    /**
+     * Try to guess argument keyname
+     * @param $command
+     * @return string
+     */
+    public function guessKey($command,$count){
+        switch ($command){
+            case 'list':
+                return 'namespace';
+            case 'app:name':
+                return 'name';
+            case 'cache:forget':
+                if($count == 1){
+                    return 'key';
+                }
+                elseif($count == 2){
+                    return 'store';
+                }
+                break;
         }
     }
 

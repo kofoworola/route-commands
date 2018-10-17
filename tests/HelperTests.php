@@ -8,13 +8,12 @@ class HelperTests extends TestCase
     public function testGenerateOption()
     {
         $pair = RouteCommandsFacade::allOptions('migrate:refresh --force');
-//        echo print_r($pair);
         $this->assertArrayHasKey('--force', $pair);
     }
 
     public function testBlockedCommand(){
-        $blocked = RouteCommandsFacade::optionPair('namespace','list');
-        echo 'test: '.print_r($blocked);
+        $blocked = RouteCommandsFacade::guessKey('app.name','cache:forge',1);
+        echo print_r($blocked);
 //        $this->assertArrayHasKey('command',$blocked);
     }
 

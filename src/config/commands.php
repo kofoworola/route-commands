@@ -9,13 +9,12 @@ return [
 
     /*
      * Available routes and their commands
-     * NOTE do not use in the form of /do/something instead use /do_something
      */
     'routes' => [
+        'list' => 'list migrate',
         'migrate' => 'migrate',
         'migrate/force' => 'migrate --force',
         'migrate/rollback' => 'migrate:rollback',
-        'migrate/refresh' => 'migrate:refresh',
         'config_cache' => 'config:cache',
         'route_list' => 'route:list',
         'queue_work' => 'queue:work --once',
@@ -30,6 +29,9 @@ return [
 
     ],
 
+    /*
+     * The commands that should not be runnable via routes
+     */
     'blocked_commands' => [
         'down',
         'app:name',
@@ -37,5 +39,8 @@ return [
         'migrate:reset',
         'notifications:table',
         'queue:table',
+        'cache:table',
+        'session:table',
+        'event:generate',
     ]
 ];
