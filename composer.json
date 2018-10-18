@@ -1,5 +1,5 @@
 {
-  "name": "kofo/route-commands",
+  "name": "kofoworola/route-commands",
   "type": "library",
   "require": {
     "php": ">=7.0",

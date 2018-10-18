@@ -1,20 +1,21 @@
-vendor/
-node_modules/
-npm-debug.log
+#RouteCommands
 
-# Laravel 4 specific
-bootstrap/compiled.php
-app/storage/
+RouteCommands is a laravel library that allows you run configured
+laravel commands directly from a route. 
 
-# Laravel 5 & Lumen specific
-public/storage
-public/hot
-storage/*.key
-.env.*.php
-.env.php
-.env
-Homestead.yaml
-Homestead.json
+It is particularly useful for situations where laravel is being run on
+an environment with little to no ssh access
 
-# Rocketeer PHP task runner and deployment package. https://github.com/rocketeers/rocketeer
-.rocketeer/
+##Getting started
+Install RouteCommands by running: 
+
+```composer require kofoworola/route-commands```
+
+Then run ```php artisan vendor:publish```, this will publish the
+```config/commands.php``` file to your project where you can then setup your commands
+
+Once your commands and routes have been setup, simply navigate to your route 
+e.g `http://localhost/commands/route_list` and you should be greeted with a screen 
+similar to the one below:
+
+![image](https://imgur.com/a/Z9Sppg5 "Image")
