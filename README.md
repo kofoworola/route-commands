@@ -18,4 +18,13 @@ Once your commands and routes have been setup, simply navigate to your route
 e.g `http://localhost/commands/route_list` and you should be greeted with a screen 
 similar to the one below:
 
-![image](https://imgur.com/a/Z9Sppg5 "Image")
+![image](https://i.imgur.com/YVWnBWL.png "Image")
+
+To add new commands or block new commands simply update the config file and re-cache your config
+by navigating to `/config_cache`.
+
+
+This library was born out of my frustration with using Laravel on a shared hosting environment.
+I hope you find some good use for it.
+
+Enjoy!
