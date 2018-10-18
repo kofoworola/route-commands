@@ -23,8 +23,10 @@ similar to the one below:
 To add new commands or block new commands simply update the config file and re-cache your config
 by navigating to `/config_cache`.
 
+### this package does nut run commands with ```exec()``` thats just plain unsafe
 
 This library was born out of my frustration with using Laravel on a shared hosting environment.
 I hope you find some good use for it.
 
 Enjoy!
+
