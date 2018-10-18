@@ -1,4 +1,4 @@
-#RouteCommands
+# RouteCommands
 
 RouteCommands is a laravel library that allows you run configured
 laravel commands directly from a route. 
@@ -6,7 +6,7 @@ laravel commands directly from a route.
 It is particularly useful for situations where laravel is being run on
 an environment with little to no ssh access
 
-##Getting started
+## Getting started
 Install RouteCommands by running: 
 
 ```composer require kofoworola/route-commands```
