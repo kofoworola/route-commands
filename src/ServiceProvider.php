@@ -20,13 +20,15 @@ class ServiceProvider extends IlluminateServiceProvider
 
         $route_config =[
             'prefix' => $this->app['config']->get('commands.route_prefix'),
-            'namespace' => 'kofo\RouteCommands\Controllers'
+            'namespace' => 'kofo\RouteCommands\Controllers',
+            'middleware' => ['web']
         ];
         $routes = $this->app['config']->get('commands.routes') ?? [];
 
         $this->app['router']->group($route_config,function ($router) use (&$routes){
             foreach ($routes as $route => $command){
                 $router->get($route,'RouteCommandsController@handle');
+                $router->post($route,'RouteCommandsController@authenticate');
             }
         });
 

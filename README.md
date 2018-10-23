@@ -16,9 +16,12 @@ Then run ```php artisan vendor:publish```, this will publish the
 
 Once your commands and routes have been setup, simply navigate to your route 
 e.g `http://localhost/commands/route_list` and you should be greeted with a screen 
-similar to the one below:
+similar to the one below if authentication has been enabled:
 
-![image](https://i.imgur.com/YVWnBWL.png "Image")
+![image](https://i.imgur.com/ovTJUmK.png "Image")
+
+After filling in your password and hitting enter your commands would run
+![image](https://i.imgur.com/UC4sL0U.png "Image")
 
 To add new commands or block new commands simply update the config file and re-cache your config
 by navigating to `/config_cache`.

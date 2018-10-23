@@ -13,6 +13,8 @@ use Illuminate\Support\Facades\Artisan;
 
 class RouteCommands
 {
+    private $options;
+
     /**
      * Get the url path after the set prefix
      * @param string $path
@@ -23,6 +25,13 @@ class RouteCommands
             $path = \Illuminate\Support\Facades\Request::path();
         }
         return str_after($path,config('commands.route_prefix').'/');
+    }
+
+    public function commandString(){
+        $route = $this->afterPrefix();
+        $config_routes = config('commands.routes');
+        $value =$config_routes[$route];
+        return $value;
     }
 
     /**
@@ -53,9 +62,8 @@ class RouteCommands
     /**
      * Generate all array items based on command string
      * @param $string
-     * @return array
      */
-    public function allOptions($string){
+    public function setOptions($string){
         $words = explode(' ',$string);
         $options[0] = $words[0];
         if(count($words) > 1)
@@ -66,7 +74,11 @@ class RouteCommands
             }
 
         }
-        return $options;
+        $this->options = $options;
+    }
+
+    public function command(){
+        return $this->options[0];
     }
 
     /**
@@ -111,10 +123,10 @@ class RouteCommands
 
     /**
      * Call command on artisan and get output
-     * @param $options
      * @return mixed
      */
-    public function callCommand($options){
+    public function callCommand(){
+        $options = $this->options;
         $command = $options[0];
         $check = $this->commandBlocked($command);
         if($check)
