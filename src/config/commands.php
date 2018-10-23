@@ -30,6 +30,22 @@ return [
     ],
 
     /*
+     * Whether route commands should be authenticated
+     */
+    'authentication' => [
+        /*
+         * Should there be a password prompt
+         */
+        'authenticated' => true,
+        'display' => 'Enter your password',
+
+        /*
+         * NOTE: Command will not run if password is this default
+         */
+        'pass' => 'FG9cdLwzNTvFvEsR',
+    ],
+
+    /*
      * The commands that should not be runnable via routes
      */
     'blocked_commands' => [
@@ -42,5 +58,5 @@ return [
         'cache:table',
         'session:table',
         'event:generate',
-    ]
+    ],
 ];
